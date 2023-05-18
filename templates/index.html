@@ -1,0 +1,129 @@
+﻿{% extends "base.html" %}
+
+{% block title %}仪表盘{% endblock %}
+
+{% block active1 %}class="active-menu"{% endblock %}
+
+{% block css %}
+  <style>
+    .btn-spaced {
+      margin-right: 10px; /* 定义按钮之间的间距 */
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+    <h2 class="page-header">
+       Dashboard
+    </h2>
+<ol class="breadcrumb">
+  <li><a class="btn btn-sm btn-info" data-toggle="modal" href="{{ url_for('portscan.select_port') }}">端口扫描</a></li>
+  <li><a class="btn btn-sm btn-info" data-toggle="modal" href="{{ url_for('domainscan.select_domain') }}">域名探测</a></li>
+  <li><a class="btn btn-sm btn-info" data-toggle="modal" href="{{ url_for('crawler.select_spider') }}">爬虫流量</a></li>
+  <li><a class="btn btn-sm btn-info" data-toggle="modal" href="{{ url_for('vulnscan.showProperty') }}">漏洞探测</a></li>
+  <li><a class="btn btn-sm btn-info" data-toggle="modal" href="{{ url_for('fingerprintscan.select_fingerprint') }}">指纹识别</a></li>
+  <li><a class="btn btn-sm btn-info" data-toggle="modal" href="{{ url_for('task.tasklist') }}">任务列表</a></li>
+</ol>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="container mt-3">
+          <div class="row">
+            <div class="col-md-6 col-lg-4 mb-3">
+                <h3 align="center">漏洞等级</h3>
+              <canvas id="myPieChart1"></canvas>
+            </div>
+            <div class="col-md-6 col-lg-4 mb-3">
+                <h3 align="center">漏洞类型</h3>
+              <canvas id="myPieChart2"></canvas>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script>
+  // Get the canvas element and set its width and height
+  var canvas = document.getElementById("myPieChart1");
+  canvas.width = 350;
+  canvas.height = 350;
+
+  // Set the chart data
+  var data = {
+    labels: ["高危", "中危", "低危"],
+    datasets: [{
+      backgroundColor: ["#FF6384", "#FFCE56", "#36A2EB"],
+      data: [{{ rank[2]['high_rank'] }}, {{ rank[1]['mid_rank'] }}, {{ rank[0]['low_rank'] }}],
+      label:'漏洞数量'
+    }]
+  };
+var options = {
+    responsive: false,
+    tooltips: {
+        callbacks: {
+            label: function (tooltipItem, data) {
+                var dataset = data.datasets[tooltipItem.datasetIndex];
+                var label = dataset.label || '';
+                if (label) {
+                    label += ': ';
+                }
+                label += dataset.data[tooltipItem.index];
+                return label;
+            }
+        }
+    }
+};
+  // Create the pie chart
+  var myPieChart = new Chart(canvas,{
+    type: 'pie',
+    data: data,
+    options: options
+  });
+</script>
+
+
+<script>
+  // Get the canvas element and set its width and height
+  var canvas = document.getElementById("myPieChart2");
+  canvas.width = 350;
+  canvas.height = 350;
+
+  // Set the chart data
+  var data = {
+    labels: ["sql", "xss", "rce","other"],
+    datasets: [{
+      backgroundColor: ["#FF6384", "#FFCE56", "#36A2EB", "#808080"],
+      data: [{{ amount[0]['sql_amount'] }}, {{ amount[1]['xss_amount'] }}, {{ amount[2]['rce_amount'] }}, {{ amount[3]['other_amount'] }}],
+       label:'漏洞数量'
+    }]
+  };
+  var options = {
+  responsive: false,
+  tooltips: {
+    callbacks: {
+      label: function(tooltipItem, data) {
+        var dataset = data.datasets[tooltipItem.datasetIndex];
+        var label = dataset.label || '';
+        if (label) {
+          label += ': ';
+        }
+        label += dataset.data[tooltipItem.index];
+        return label;
+      }
+    }
+  }
+};
+  // Create the pie chart
+  var myPieChart = new Chart(canvas,{
+    type: 'pie',
+    data: data,
+    options: options
+  });
+</script>
+{% endblock %}

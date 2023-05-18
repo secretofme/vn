@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% block title %}用户信息管理{% endblock %}
+
+{% block body %}
+<h1 align="center" class="page-title">用户信息</h1><hr />
+        <div class="row">
+              <div class="col-lg-4">
+                <div class="card card-small mb-4 pt-3">
+                  <div class="card-header border-bottom text-center">
+                    <div class="mb-3 mx-auto">
+                      <img class="rounded-circle" src="{{ url_for('static', filename='images/0.jpg') }}" alt="User Avatar" width="110"> </div>
+                    <h4 class="mb-0">{{ user.username }}</h4>
+                  </div>
+                  <ul class="list-group list-group-flush">
+                    <li class="list-group-item p-4">
+                      <strong class="text-muted d-block mb-2">简介:</strong><hr>
+                        <span>{{ user.description }}</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-8">
+                <div class="card card-small mb-4">
+                  <div class="card-header border-bottom">
+                    <h4 class="m-0">Account Details</h4>
+                  </div>
+                    <li class="list-group-item p-3">
+                      <div class="row">
+                        <div class="col">
+                          <form action="{{ url_for('admin.edit') }}" method="POST">
+                            <div class="form-row">
+                              <div class="form-group col-md-6">
+                                <label for="feFirstName">First Name</label>
+                                  <a type="text" class="form-control" id="feFirstName" placeholder="First Name" value="V N">VNScanner</a></div>
+                              <div class="form-group col-md-6">
+                                <label for="feLastName">Last Name</label>
+                                  <a type="text" class="form-control" id="feLastName" placeholder="Last Name" value="YYDS">待优化</a></div>
+                            </div>
+                            <div class="form-row">
+                          <div class="form-group col-md-12">
+                            <label for="feDescription">邮箱</label>
+                              <input type="email" class="form-control" id="email" name="email" disabled value="{{ user.email }}">
+                          </div>
+                        </div>
+                              <div class="form-row">
+                          <div class="form-group col-md-12" >
+                            <label for="feDescription">电话号码</label>
+                            <input type="tel" class="form-control" id="phone" name="phone" disabled value="{{ user.phone }}">
+                          </div>
+                        </div>
+
+                            <div class="form-row">
+                              <div class="form-group col-md-12">
+                                <label for="feDescription">简介</label>
+                                <textarea class="form-control" name="description" rows="5">{{ user.description }}</textarea>
+                              </div>
+                            </div>
+
+                              <div class="form-group col-md-12">
+                            <button type="submit" class="btn btn-accent">更新</button>
+                            <button type="button" class="btn btn-accent" onclick="edit()">编辑</button>
+                                    </div>
+
+                          </form>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+{% endblock %}
+
+{% block js %}
+    <script>
+        function edit() {
+            document.getElementById("email").removeAttribute("disabled")
+            document.getElementById("phone").removeAttribute("disabled")
+        }
+    </script>
+{% endblock %}

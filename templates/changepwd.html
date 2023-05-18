@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}重置密码{% endblock %}
+
+{% block css %}
+    <link href="{{ url_for('static', filename='css/changepwd.css') }}" rel="stylesheet" />
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <form action="{{ url_for('admin.changePasswd') }}" method="POST">
+	<div class="userName-wrapper">
+		<label for="userName">原密码</label>
+		<input type="text" id="userName" name="oldpassword" required="required">
+	</div>
+	<div class="count"></div>
+
+	<div class="passWord-wrapper">
+		<label for="psd">新密码:</label>
+		<input type="password" id="psd" name="newpassword" >
+	</div>
+    <br>
+	<div class="passWord1-wrapper">
+		<label for="psd1">确认密码:</label>
+		<input type="password"  id="psd1" name="password_confirm" onblur="checkpassword()">
+        <span id="tishi"></span>
+	</div>
+	<div class="btn-wrapper">
+		<input type="submit" class="btn" value="提交" >
+	</div>
+    </form>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+    function checkpassword() {
+        var password = document.getElementById("psd").value;
+        var repassword = document.getElementById("psd1").value;
+        if(password == repassword) {
+            document.getElementById("tishi").innerHTML='<i class="right"></i> OK';
+            document.getElementById("submit").disabled = true;
+
+        }else {
+            document.getElementById("tishi").innerHTML='<i class="right"></i> 输入密码不一致!';
+            alert('两次输入密码不一致！');
+            document.getElementById("submit").disabled = false;
+        }
+    }
+</script>
+{% endblock %}

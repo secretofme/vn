@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}{% endblock %}</title>
+
+    <!-- Bootstrap Styles-->
+    <link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet" />
+    <!-- FontAwesome Styles-->
+    <link href="{{ url_for('static', filename='css/font-awesome.css') }}" rel="stylesheet" />
+    <!-- Custom Styles-->
+    <link href="{{ url_for('static', filename='css/custom-styles.css') }}" rel="stylesheet" />
+    {% block css %}{% endblock %}
+        <!-- JS Scripts-->
+    <!-- jQuery Js -->
+
+</head>
+
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-default top-navbar" role="navigation">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="{{ url_for('admin.index') }}">VNScanner</a>
+            </div>
+
+            <ul class="nav navbar-top-links navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                        <li><a href="{{ url_for('admin.edit') }}"><i class="fa fa-user fa-fw"></i>{{ user.username }}</a>
+                        </li>
+                        <li><a id="editPasswd" href="{{ url_for('admin.changePasswd') }}"><i class="fa fa-gear fa-fw"></i>修改密码</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li><a href="{{ url_for('admin.logout') }}"><i class="fa fa-sign-out fa-fw"></i>Logout</a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+        </nav>
+
+        <!--/. NAV TOP  -->
+        <nav class="navbar-default navbar-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav" id="main-menu">
+                    <!--/. 选中样式 class="active-menu"  -->
+                    <li>
+                        <a {% block active1 %}{% endblock %} href="{{ url_for('admin.index') }}"><i class="fa fa-dashboard"></i>仪表盘</a>
+                    </li>
+                    <li>
+                        <a {% block active2 %}{% endblock %} href="{{ url_for('portscan.select_port') }}"><i class="fa fa-desktop"></i>端口扫描</a>
+                    </li>
+					<li>
+                        <a {% block active3 %}{% endblock %} href="{{ url_for('domainscan.select_domain') }}"><i class="fa fa-bar-chart-o"></i>域名探测</a>
+                    </li>
+                    <li>
+                        <a {% block active4 %}{% endblock %} href="{{ url_for('crawler.select_spider') }}"><i class="fa fa-qrcode"></i>爬虫流量</a>
+                    </li>
+                    <li>
+                        <a {% block active5 %}{% endblock %} href="{{ url_for('vulnscan.showProperty') }}"><i class="fa fa-table"></i>漏洞探测</a>
+                    </li>
+                    <li>
+                        <a {% block active6 %}{% endblock %} href="{{ url_for('fingerprintscan.select_fingerprint') }}"><i class="fa fa-edit"></i>指纹识别</a>
+                    </li>
+
+                    <li>
+                        <a {% block active7 %}{% endblock %} href="{{ url_for('task.tasklist') }}"><i class="fa fa-file"></i>任务列表</a>
+                    </li>
+{#                     <li>#}
+{#                        <a {% block active8 %}{% endblock %} href=""><i class="fa fa-link"></i>接口</a>#}
+{#                    </li>#}
+                </ul>
+
+            </div>
+
+        </nav>
+        <!-- /. NAV SIDE  -->
+        <div id="page-wrapper">
+            <div id="page-inner">
+            {% block body %}{% endblock %}
+            <!-- /. PAGE INNER  -->
+            </div>
+        </div>
+        <!-- /. PAGE WRAPPER  -->
+    </div>
+    <!-- /. WRAPPER  -->
+    <script src="{{ url_for('static', filename='js/jquery-1.10.2.js') }}"></script>
+      <!-- Bootstrap Js -->
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <!-- Metis Menu Js -->
+    <script src="{{ url_for('static', filename='js/jquery.metisMenu.js') }}"></script>
+      <!-- Custom Js -->
+    <script src="{{ url_for('static', filename='js/custom-scripts.js') }}"></script>
+    {% block js %}{% endblock %}
+</body>
+
+</html>

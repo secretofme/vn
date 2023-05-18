@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}ip定位{% endblock %}
+
+{% block css %}
+
+<style>
+      #map {
+        height: 500px;
+      }
+    </style>
+{% endblock %}
+
+{% block body %}
+
+<div id="map"></div>
+    <form>
+      <label for="ip_address">Enter IP address:</label>
+      <input type="text" name="ip_address" id="ip_address" />
+      <button type="submit">Locate</button>
+    </form>
+{% endblock %}
+
+{% block js %}
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-1dJ9/9b8w8I3I5y7zv8sXvIYoIhZxUW8JfVU0gACbYmP5sEhL0Y4/7Y8vJzCJvH6l9fJNvXJ3m5DZdXjSaDpw==" crossorigin=""></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+      const map = L.map("map").setView([0, 0], 2);
+
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+        maxZoom: 18,
+      }).addTo(map);
+
+      const marker = L.marker([0, 0]).addTo(map);
+
+      const form = document.querySelector("form");
+      const input = document.querySelector("#ip_address");
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const ip_address = input.value.trim();
+        axios
+          .get(`https://ipapi.co/${ip_address}/json/`)
+          .then((response) => {
+            const { latitude, longitude } = response.data;
+            map.setView([latitude, longitude], 8);
+            marker.setLatLng([latitude, longitude]);
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      });
+    </script>
+{% endblock %}
