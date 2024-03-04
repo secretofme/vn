@@ -10,6 +10,6 @@
 ### 如有好的建议可加QQ：917573387
 
 ## 启动
-安装相关的模块：python -m pip install -r requests.txt -i https://pypi.tuna.tsinghua.edu.cn/simple/
-配置config.py
-启动服务端python app.py
+安装相关的模块：python -m pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple/  
+配置config.py  
+启动服务端 python app.py  
