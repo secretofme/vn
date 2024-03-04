@@ -8,3 +8,8 @@
 - 指纹识别：wappalyzer
 - 子域名收集：接口
 ### 如有好的建议可加QQ：917573387
+
+## 启动
+安装相关的模块：python -m pip install -r requests.txt -i https://pypi.tuna.tsinghua.edu.cn/simple/
+配置config.py
+启动服务端python app.py
